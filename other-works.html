@@ -4,15 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Barkot Zewdu | Other Works</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
+        /* --- CSS VARIABLES (MATCHING MAIN THEME) --- */
         :root {
             --bg-color: #0f172a;
             --card-bg: #1e293b;
             --text-main: #f1f5f9;
             --text-muted: #94a3b8;
             --accent: #38bdf8;
+            --accent-hover: #0ea5e9;
+            --glass: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
             --font-main: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
@@ -31,46 +35,64 @@
             margin: 0 auto;
         }
 
-        /* Header Area */
+        /* --- HEADER --- */
         .page-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 60px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            border-bottom: 1px solid var(--glass-border);
             padding-bottom: 20px;
         }
 
-        h1 { font-size: 2.5rem; }
+        h1 { 
+            font-size: 2.5rem; 
+            text-shadow: 0 0 20px rgba(56, 189, 248, 0.2);
+        }
         
+        /* Glossy Back Button */
         .back-link {
             text-decoration: none;
-            color: var(--accent);
+            color: var(--text-muted);
             font-weight: bold;
             display: flex;
             align-items: center;
             gap: 10px;
             transition: 0.3s;
+            padding: 10px 20px;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 30px;
         }
 
-        .back-link:hover { transform: translateX(-5px); }
+        .back-link:hover { 
+            background: var(--accent);
+            color: var(--bg-color);
+            border-color: var(--accent);
+            transform: translateX(-5px);
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
+        }
 
-        /* List Styles */
+        /* --- PROJECT LIST --- */
         .project-list {
             list-style: none;
         }
 
         .project-item {
             background: var(--card-bg);
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             padding: 30px;
-            border-radius: 12px;
+            border-radius: 15px;
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            align-items: flex-start; /* Align to top */
             transition: 0.3s;
-            border-left: 5px solid transparent;
-            opacity: 0; /* Hidden for animation */
+            border: 1px solid var(--glass-border);
+            position: relative;
+            overflow: hidden;
+            
+            /* Animation setup */
+            opacity: 0; 
             animation: slideIn 0.5s forwards;
         }
 
@@ -81,17 +103,60 @@
         .project-item:nth-child(4) { animation-delay: 0.4s; }
 
         .project-item:hover {
-            transform: translateX(10px);
-            border-left: 5px solid var(--accent);
+            transform: translateY(-5px);
+            border-color: var(--accent);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .project-info {
+            flex: 1;
         }
 
         .project-info h2 {
-            font-size: 1.5rem;
-            margin-bottom: 5px;
+            font-size: 1.6rem;
+            margin-bottom: 10px;
+            color: var(--text-main);
+        }
+        
+        .project-info h2 i {
+            color: var(--accent);
+            margin-left: 10px;
+            font-size: 1.2rem;
         }
 
         .project-info p {
             color: var(--text-muted);
+            margin-bottom: 15px;
+            font-size: 1rem;
+        }
+
+        /* Demo Button Style */
+        .demo-btn {
+            display: inline-block;
+            padding: 8px 20px;
+            background: var(--accent);
+            color: var(--bg-color);
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 0.9rem;
+            transition: 0.3s;
+            margin-top: 5px;
+        }
+
+        .demo-btn:hover {
+            background: transparent;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            box-shadow: 0 0 10px var(--accent);
+        }
+
+        /* Tags (Right side) */
+        .project-meta {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 10px;
         }
 
         .project-tag {
@@ -101,6 +166,8 @@
             border-radius: 20px;
             font-size: 0.8rem;
             font-weight: bold;
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            white-space: nowrap;
         }
 
         @keyframes slideIn {
@@ -108,8 +175,24 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        @media (max-width: 600px) {
-            .project-item { flex-direction: column; align-items: flex-start; gap: 15px; }
+        /* Mobile Responsiveness */
+        @media (max-width: 650px) {
+            .page-header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+
+            .project-item { 
+                flex-direction: column; 
+                gap: 20px; 
+            }
+            
+            .project-meta {
+                flex-direction: row;
+                width: 100%;
+                justify-content: flex-start;
+            }
         }
     </style>
 </head>
@@ -122,38 +205,51 @@
         </div>
 
         <ul class="project-list">
+            
+            <li class="project-item">
+                <div class="project-info">
+                    <h2>Bite Addis <i class="fas fa-hamburger"></i></h2>
+                    <p>A simple, appetizing website for a fast food restaurant in Addis.</p>
+                    <a href="https://barkotzewdu.github.io/bite-addis-project/" target="_blank" class="demo-btn">
+                        See Demo Project <i class="fas fa-external-link-alt"></i>
+                    </a>
+                </div>
+                <div class="project-meta">
+                    <span class="project-tag">HTML / CSS</span>
+                    <span class="project-tag">Web Design</span>
+                </div>
+            </li>
+
             <li class="project-item">
                 <div class="project-info">
                     <h2>Weather Dashboard</h2>
                     <p>Uses a public API to fetch weather data for specific cities.</p>
                 </div>
-                <span class="project-tag">API Integration</span>
+                <div class="project-meta">
+                    <span class="project-tag">API Integration</span>
+                </div>
             </li>
 
             <li class="project-item">
                 <div class="project-info">
-                    <h2>BITE Addis</h2>
-                    <p>A classic website for a fast food restaurant</p>
-                  <a href="https://barkotzewdu.github.io/bite-addis-project/" target="_blank">View Live Demo</a>
+                    <h2>To-Do List App</h2>
+                    <p>A classic productivity tool with local storage features.</p>
                 </div>
-                <span class="project-tag">JavaScript</span>
-            </li>
-           </a>
-            <li class="project-item">
-                <div class="project-info">
-                    <h2>Photography Blog Layout</h2>
-                    <p>A CSS Grid experiment focusing on image galleries.</p>
+                <div class="project-meta">
+                    <span class="project-tag">JavaScript</span>
                 </div>
-                <span class="project-tag">CSS Grid</span>
             </li>
 
             <li class="project-item">
                 <div class="project-info">
                     <h2>Student Grade Calculator</h2>
-                    <p>Python script converted to web interface for calculating GPA.</p>
+                    <p>A utility web tool for calculating GPA based on credit hours.</p>
                 </div>
-                <span class="project-tag">Utility</span>
+                <div class="project-meta">
+                    <span class="project-tag">Utility Tool</span>
+                </div>
             </li>
+
         </ul>
     </div>
 
