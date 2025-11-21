@@ -146,7 +146,6 @@
             box-shadow: 0 0 10px var(--accent);
         }
 
-        /* NEW REVIEW BUTTON STYLE */
         .review-btn {
             display: inline-block;
             padding: 8px 20px;
@@ -167,7 +166,6 @@
             color: var(--bg-color);
         }
 
-        /* Tags */
         .project-meta {
             display: flex;
             flex-direction: column;
@@ -219,11 +217,6 @@
             border-radius: 5px;
         }
 
-        #reviewModal button {
-            cursor: pointer;
-        }
-
-        /* Overlay to darken background when modal is open */
         #modalOverlay {
             display: none;
             position: fixed;
@@ -232,9 +225,41 @@
             z-index: 999;
         }
 
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        /* --- SUCCESS MODAL STYLES --- */
+        #successModal {
+            display: none;
+            position: fixed;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            border: 2px solid #4ade80; /* Green Border */
+            z-index: 1001;
+            box-shadow: 0 0 50px rgba(0,0,0,0.8);
+            width: 300px;
+        }
+
+        .checkmark-circle {
+            width: 50px; height: 50px;
+            border-radius: 50%;
+            background: #4ade80;
+            margin: 0 auto 15px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: popIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .checkmark-icon {
+            color: #1e293b;
+            font-size: 24px;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0); }
+            100% { transform: scale(1); }
         }
 
         @media (max-width: 650px) {
@@ -264,12 +289,11 @@
                             See Demo Project <i class="fas fa-external-link-alt"></i>
                         </a> 
                         
-                        <button class="review-btn" onclick="openModal()">
+                        <button class="review-btn" onclick="openModal('Bite Addis')">
                             Write a Review <i class="fas fa-pen"></i>
                         </button>
                     </div>
                 </div> 
-                
                 <div class="project-meta">
                     <span class="project-tag">HTML / CSS</span>
                     <span class="project-tag">Web Design</span>
@@ -280,9 +304,16 @@
                 <div class="project-info">
                     <h2>Mak Pizza & Burger<i class="fas fa-hamburger"></i><i class="fas fa-pizza"></i></h2>
                     <p>A simple, appetizing website for a fast food restaurant in Addis.</p>
-                    <a href="https://mak-pizza.vercel.app/" target="_blank" class="demo-btn">
-                        See Demo Project <i class="fas fa-external-link-alt"></i>
-                    </a>
+                    
+                    <div class="btn-group">
+                        <a href="https://mak-pizza.vercel.app/" target="_blank" class="demo-btn">
+                            See Demo Project <i class="fas fa-external-link-alt"></i>
+                        </a>
+                        
+                        <button class="review-btn" onclick="openModal('Mak Pizza & Burger')">
+                            Write a Review <i class="fas fa-pen"></i>
+                        </button>
+                    </div>
                 </div>
                 <div class="project-meta">
                     <span class="project-tag">HTML</span>
@@ -316,7 +347,7 @@
 
     <div id="modalOverlay" onclick="closeModal()"></div>
     <div id="reviewModal">
-        <h3><i class="fas fa-comment-dots"></i> Leave a Review</h3>
+        <h3><i class="fas fa-comment-dots"></i> Reviewing: <span id="modalProjectName">Project</span></h3>
         <input type="text" id="rName" placeholder="Your Name">
         <input type="email" id="rEmail" placeholder="Your Email">
         <textarea id="rMessage" placeholder="Write your review here..." rows="4"></textarea>
@@ -327,14 +358,19 @@
         </div>
     </div>
 
+    <div id="successModal">
+        <div class="checkmark-circle">
+            <i class="fas fa-check checkmark-icon"></i>
+        </div>
+        <h3 style="color:#4ade80; margin-bottom:5px;">Success!</h3>
+        <p style="color:var(--text-muted)">Thank you for your feedback.</p>
+    </div>
+
     <script type="module">
-        // Import Firebase SDKs
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-analytics.js";
-        // We need Firestore to save data
         import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
 
-        // Your Firebase configuration
         const firebaseConfig = {
             apiKey: "AIzaSyB9M20cSKzlR_N83_hNYUOxglcJHCy8sIg",
             authDomain: "portfolio-feedback-c2789.firebaseapp.com",
@@ -345,24 +381,28 @@
             measurementId: "G-7FK1C9CQQQ"
         };
 
-        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const analytics = getAnalytics(app);
-        const db = getFirestore(app); // Initialize Database
+        const db = getFirestore(app);
 
-        // --- Functions to Open/Close Modal ---
-        // We attach these to the window object so HTML onclick works with modules
-        window.openModal = function() {
+        // Variable to store which project is currently being reviewed
+        let currentProject = "";
+
+        // --- OPEN MODAL ---
+        window.openModal = function(projectName) {
+            currentProject = projectName; // Store project name
+            document.getElementById('modalProjectName').innerText = projectName; // Show in title
             document.getElementById('reviewModal').style.display = 'block';
             document.getElementById('modalOverlay').style.display = 'block';
         }
 
+        // --- CLOSE MODAL ---
         window.closeModal = function() {
             document.getElementById('reviewModal').style.display = 'none';
             document.getElementById('modalOverlay').style.display = 'none';
         }
 
-        // --- Submit Review Function ---
+        // --- SUBMIT FUNCTION ---
         document.getElementById('submitBtn').addEventListener('click', async () => {
             const name = document.getElementById('rName').value;
             const email = document.getElementById('rEmail').value;
@@ -374,22 +414,35 @@
             }
 
             try {
-                // Save to Firebase Firestore
+                // 1. Save to Firebase
                 await addDoc(collection(db, "reviews"), {
                     name: name,
                     email: email,
                     message: message,
-                    project: "Bite Addis",
+                    project: currentProject, // Saves 'Bite Addis' or 'Mak Pizza'
                     date: new Date()
                 });
                 
-                alert("Review Submitted! Thank you.");
+                // 2. Close the input form
                 closeModal();
-                
-                // Clear inputs
+
+                // 3. Clear the inputs
                 document.getElementById('rName').value = "";
                 document.getElementById('rEmail').value = "";
                 document.getElementById('rMessage').value = "";
+
+                // 4. Show Success Animation
+                const successModal = document.getElementById('successModal');
+                const overlay = document.getElementById('modalOverlay');
+                
+                overlay.style.display = 'block'; // Keep overlay dark
+                successModal.style.display = 'block'; // Show Checkmark
+
+                // 5. Hide Success Animation after 3 seconds
+                setTimeout(() => {
+                    successModal.style.display = 'none';
+                    overlay.style.display = 'none';
+                }, 3000);
                 
             } catch (e) {
                 console.error("Error adding document: ", e);
