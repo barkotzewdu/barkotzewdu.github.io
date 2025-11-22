@@ -231,10 +231,73 @@
             color: var(--accent);
             font-weight: bold;
             font-size: 1rem;
+            cursor: pointer; /* Makes it look clickable */
+            transition: 0.3s;
+        }
+
+        .cert-badge:hover {
+            background: rgba(56, 189, 248, 0.2);
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.3);
+            transform: scale(1.02);
         }
         
         .cert-badge i {
             font-size: 1.2rem;
+        }
+
+        /* --- MODAL (POP-UP) STYLES --- */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed;
+            z-index: 2000; /* Sits on top of everything */
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85); /* Dark dimmed background */
+            backdrop-filter: blur(8px); /* Blur effect */
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal.show {
+            display: flex;
+            opacity: 1;
+        }
+
+        /* Modal Content (The Image) */
+        .modal-content {
+            max-width: 85%;
+            max-height: 85%;
+            border-radius: 10px;
+            box-shadow: 0 0 30px var(--accent);
+            border: 2px solid rgba(255,255,255,0.1);
+            animation: zoomIn 0.4s ease;
+        }
+
+        @keyframes zoomIn {
+            from {transform: scale(0.5); opacity: 0;}
+            to {transform: scale(1); opacity: 1;}
+        }
+
+        /* The Close Button (X) */
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+            cursor: pointer;
+            z-index: 2001;
+        }
+
+        .close-btn:hover {
+            color: var(--accent);
+            transform: rotate(90deg);
         }
 
         /* --- MY WORKS SECTION --- */
@@ -365,12 +428,12 @@
                 font-size: 0.8rem;
             }
             .logo { font-size: 1.5rem; }
+            .close-btn { right: 20px; top: 10px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Navigation -->
     <header>
         <div class="container">
             <nav>
@@ -385,10 +448,8 @@
         </div>
     </header>
 
-    <!-- Hero Section -->
     <section id="home" class="hero">
         <div class="hero-content fade-in">
-            
             <img src="Profile.JPG" alt="Barkot Zewdu" onerror="this.src='https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=400&q=80'">
             <h1>Hi, I'm <span>Barkot Zewdu</span></h1>
             <p>First-year Computer Science Student</p>
@@ -413,8 +474,7 @@
                     and more interactive web experiences.
                 </p>
                 
-                
-                <div class="cert-badge">
+                <div class="cert-badge" id="certBtn" title="Click to view certificate">
                     <i class="fas fa-award"></i>
                     <span>Certificate in AI Fundamentals - Udacity</span>
                 </div>
@@ -427,19 +487,16 @@
         <div class="container">
             <h2 class="section-title fade-in">My Works</h2>
             <div class="projects-grid">
-                <!-- Project 1 -->
                 <div class="project-card fade-in">
                     <div class="project-icon"><i class="fas fa-laptop-code"></i></div>
                     <h3>School Website Project</h3>
                     <p>A responsive homepage built for a mock high school using pure HTML & CSS.</p>
                 </div>
-                <!-- Project 2 -->
                 <div class="project-card fade-in">
                     <div class="project-icon"><i class="fas fa-calculator"></i></div>
                     <h3>JS Calculator</h3>
                     <p>A functional calculator application featuring dark mode and history tracking.</p>
                 </div>
-                <!-- Project 3 -->
                 <div class="project-card fade-in">
                     <div class="project-icon"><i class="fas fa-gamepad"></i></div>
                     <h3>Simple Browser Game</h3>
@@ -479,16 +536,20 @@
     </section>
 
     <footer>
-        <p>&copy; 2025 Barkot Zewdu. </p>
+        <p>&copy; 2025 Barkot Zewdu.</p>
     </footer>
+
+    <div id="certModal" class="modal">
+        <span class="close-btn">&times;</span>
+        <img class="modal-content" src="certificate.png" alt="Certificate in AI Fundamentals">
+    </div>
 
     
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const observerOptions = {
-                threshold: 0.15
-            };
-
+            
+            // --- Fade In Observer Logic ---
+            const observerOptions = { threshold: 0.15 };
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
@@ -496,9 +557,30 @@
                     }
                 });
             }, observerOptions);
-
             const animatedElements = document.querySelectorAll('.fade-in');
             animatedElements.forEach(el => observer.observe(el));
+
+            // --- Certificate Modal Logic ---
+            const modal = document.getElementById("certModal");
+            const btn = document.getElementById("certBtn");
+            const closeBtn = document.querySelector(".close-btn");
+
+            // Open Modal
+            btn.addEventListener('click', () => {
+                modal.classList.add("show");
+            });
+
+            // Close Modal on X click
+            closeBtn.addEventListener('click', () => {
+                modal.classList.remove("show");
+            });
+
+            // Close Modal on outside click
+            window.addEventListener('click', (e) => {
+                if (e.target == modal) {
+                    modal.classList.remove("show");
+                }
+            });
         });
     </script>
 </body>
