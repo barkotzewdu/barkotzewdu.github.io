@@ -467,11 +467,7 @@
                 overlay.style.display = 'block';
                 successModal.style.display = 'block';
 
-                // Auto close success after 3 seconds
-                setTimeout(() => {
-                    successModal.style.display = 'none';
-                    overlay.style.display = 'none';
-                }, 3000);
+                
                 
             } catch (e) {
                 console.error("Error adding document: ", e);
