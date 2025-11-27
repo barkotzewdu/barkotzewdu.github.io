@@ -419,11 +419,6 @@
             modal.style.display = 'block';
             overlay.style.display = 'block';
 
-            // Auto cproject-inf3000 milliseconds (3 seconds)
-            setTimeout(() => {
-                modal.style.display = 'none';
-                overlay.style.display = 'none';
-            }, 3000);
         }
 
         // --- CLOSE ALL MODALS ---
@@ -467,7 +462,11 @@
                 overlay.style.display = 'block';
                 successModal.style.display = 'block';
 
-                
+                // Auto close success after 3 seconds
+                setTimeout(() => {
+                    successModal.style.display = 'none';
+                    overlay.style.display = 'none';
+                }, 3000);
                 
             } catch (e) {
                 console.error("Error adding document: ", e);
