@@ -474,15 +474,15 @@
                     and more interactive web experiences.
                 </p>
                 
-                <div class="cert-badge" id="certBtn" title="Click to view certificate">
+                <div class="cert-badge" id="certBtnAI" title="Click to view certificate">
                     <i class="fas fa-award"></i>
                     <span>Certificate in Artificial intelligence Fundamentals - Udacity</span>
                 </div>
-                <div class="cert-badge" id="certBtn" title="Click to view certificate">
+                <div class="cert-badge" id="certBtnAndroid" title="Click to view certificate">
                     <i class="fas fa-award"></i>
                     <span>Certificate in Android Developer Fundamentals - Udacity</span>
                 </div>
-                <div class="cert-badge" id="certBtn" title="Click to view certificate">
+                <div class="cert-badge" id="certBtnData" title="Click to view certificate">
                     <i class="fas fa-award"></i>
                     <span>Certificate in Data Analytics Fundamentals - Udacity</span>
                 </div>
@@ -547,15 +547,15 @@
         <p>&copy; 2025 Barkot Zewdu.</p>
     </footer>
 
-    <div id="certModa" class="modal">
+    <div id="certModalAI" class="modal">
         <span class="close-btn">&times;</span>
         <img class="modal-content" src="AIC.jpg" alt="Certificate in Artificial intelligence Fundamentals">
     </div>
-    <div id="certModal" class="modal">
+    <div id="certModalAndroid" class="modal">
         <span class="close-btn">&times;</span>
         <img class="modal-content" src="ADC.jpg" alt="Certificate in Android Developer Fundamentals">
     </div>
-    <div id="certModal" class="modal">
+    <div id="certModalData" class="modal">
         <span class="close-btn">&times;</span>
         <img class="modal-content" src="DAC.jpg" alt="Certificate in Data Analytics Fundamentals">
     </div>
@@ -576,25 +576,46 @@
             const animatedElements = document.querySelectorAll('.fade-in');
             animatedElements.forEach(el => observer.observe(el));
 
-            // --- Certificate Modal Logic ---
-            const modal = document.getElementById("certModal");
-            const btn = document.getElementById("certBtn");
-            const closeBtn = document.querySelector(".close-btn");
+            // --- Certificate Modal Logic (Rewritten) ---
             
-            // Open Modal
-            btn.addEventListener('click', () => {
-                modal.classList.add("show");
+            // Map buttons to their respective modal IDs
+            const certsMap = {
+                'certBtnAI': 'certModalAI',
+                'certBtnAndroid': 'certModalAndroid',
+                'certBtnData': 'certModalData'
+            };
+
+            // Get all certificate buttons
+            const certButtons = document.querySelectorAll('.cert-badge');
+
+            certButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const modalId = certsMap[btn.id];
+                    if (modalId) {
+                        const modal = document.getElementById(modalId);
+                        if (modal) {
+                            modal.classList.add("show");
+                        }
+                    }
+                });
             });
 
-            // Close Modal on X click
-            closeBtn.addEventListener('click', () => {
-                modal.classList.remove("show");
+            // Handle closing for all modals
+            const closeButtons = document.querySelectorAll(".close-btn");
+            closeButtons.forEach(closeBtn => {
+                closeBtn.addEventListener('click', (e) => {
+                    // Find the parent modal and hide it
+                    const modal = e.target.closest('.modal');
+                    if (modal) {
+                        modal.classList.remove("show");
+                    }
+                });
             });
 
-            // Close Modal on outside click
+            // Close Modal on outside click for ANY open modal
             window.addEventListener('click', (e) => {
-                if (e.target == modal) {
-                    modal.classList.remove("show");
+                if (e.target.classList.contains('modal')) {
+                    e.target.classList.remove("show");
                 }
             });
         });
