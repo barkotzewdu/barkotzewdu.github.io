@@ -228,60 +228,7 @@
         }
         .checkmark-icon { color: #1e293b; font-size: 24px; }
 
-        /* --- FUTURISTIC "COMING SOON" MODAL --- */
-        #comingSoonModal {
-            display: none;
-            position: fixed;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            background: #0a0f1d; 
-            padding: 40px;
-            border-radius: 10px;
-            text-align: center;
-            z-index: 1002;
-            width: 90%; max-width: 450px;
-            border: 2px solid var(--accent);
-            box-shadow: 0 0 30px rgba(56, 189, 248, 0.6), inset 0 0 20px rgba(56, 189, 248, 0.3);
-            overflow: hidden;
-            animation: hologramIn 0.6s ease-out forwards;
-        }
-
-        .scanline {
-            position: absolute; top: 0; left: 0; width: 100%; height: 5px;
-            background: rgba(56, 189, 248, 0.8);
-            box-shadow: 0 0 15px var(--accent);
-            opacity: 0.7;
-            animation: scanDown 2.5s linear infinite;
-        }
-
-        .cyber-text {
-            font-family: 'Courier New', Courier, monospace;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            color: var(--accent);
-            text-shadow: 0 0 10px var(--accent), 0 0 20px var(--accent), 0 0 40px var(--accent);
-            margin: 20px 0;
-        }
-
-        .cyber-icon {
-            font-size: 3rem;
-            color: var(--accent);
-            animation: pulseGlow 2s infinite alternate;
-        }
-
-        .cyber-subtext { color: var(--text-muted); font-family: monospace; }
-
-        @keyframes scanDown { 0% { top: -10%; opacity: 0; } 20% { opacity: 0.8; } 100% { top: 110%; opacity: 0; } }
-        @keyframes pulseGlow { from { text-shadow: 0 0 10px var(--accent), 0 0 20px var(--accent); transform: scale(1); } to { text-shadow: 0 0 20px var(--accent), 0 0 40px var(--accent), 0 0 60px var(--accent); transform: scale(1.05); } }
-        @keyframes hologramIn { 0% { opacity: 0; transform: translate(-50%, -40%) scaleY(0.1); filter: blur(10px); } 60% { opacity: 1; transform: translate(-50%, -50%) scaleY(1.2); filter: blur(2px); } 100% { opacity: 1; transform: translate(-50%, -50%) scaleY(1); filter: blur(0); } }
-        @keyframes popIn { 0% { transform: scale(0); } 100% { transform: scale(1); } }
-        @keyframes slideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
-        @media (max-width: 650px) {
-            .page-header { flex-direction: column; gap: 15px; text-align: center; }
-            .project-item { flex-direction: column; gap: 20px; }
-            .project-meta { flex-direction: row; width: 100%; justify-content: flex-start; margin-left: 0; }
-        }
+        
     </style>
 </head>
 <body>
@@ -294,24 +241,6 @@
 
         <ul class="project-list">
             
-            <li class="project-item">
-                <div class="project-info">
-                    <h2>Bite Addis <i class="fas fa-hamburger"></i></h2>
-                    <p>A simple, appetizing website for a fast food restaurant in Addis.</p>
-                    <div class="btn-group">
-                        <a href="https://bite-addis-project.vercel.app/" target="_blank" class="demo-btn">
-                            See Demo Project <i class="fas fa-external-link-alt"></i>
-                        </a> 
-                        <button class="review-btn" onclick="openModal('Bite Addis')">
-                            Write a Review <i class="fas fa-pen"></i>
-                        </button>
-                    </div>
-                </div> 
-                <div class="project-meta">
-                    <span class="project-tag">HTML / CSS</span>
-                    <span class="project-tag">Web Design</span>
-                </div>
-            </li>
             <li class="project-item">
                 <div class="project-info">
                     <h2> Synergy Industry P.L.C.  <i class="fas fa-industry"></i></h2>
@@ -327,26 +256,6 @@
                 </div> 
                 <div class="project-meta">
                     <span class="project-tag">HTML / CSS</span>
-                    <span class="project-tag">Web Design</span>
-                </div>
-            </li>
-
-            <li class="project-item">
-                <div class="project-info">
-                    <h2>Mak Pizza & Burger <i class="fas fa-hamburger"></i> <i class="fas fa-pizza-slice"></i></h2>
-                    <p>A simple, appetizing website for a fast food restaurant in Addis.</p>
-                    <div class="btn-group">
-                        <a href="https://mak-pizza.vercel.app/" target="_blank" class="demo-btn">
-                            See Demo Project <i class="fas fa-external-link-alt"></i>
-                        </a>
-                        <button class="review-btn" onclick="openModal('Mak Pizza & Burger')">
-                            Write a Review <i class="fas fa-pen"></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="project-meta">
-                    <span class="project-tag">HTML</span>
-                    <span class="project-tag">CSS</span>
                     <span class="project-tag">Web Design</span>
                 </div>
             </li>
@@ -375,14 +284,6 @@
         <h3 style="color:#4ade80; margin-bottom:5px;">Success!</h3>
         <p style="color:var(--text-muted)">Thank you for your feedback.</p>
     </div>
-
-    <div id="comingSoonModal">
-        <div class="scanline"></div>
-        <i class="fas fa-rocket cyber-icon"></i>
-        <h2 class="cyber-text">COMING SOON</h2>
-        <p class="cyber-subtext">PROJECT INITIALIZING...</p>
-    </div>
-
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
