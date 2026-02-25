@@ -195,7 +195,7 @@
 
         .about-text {
             text-align: center;
-            max-width: 800px; /* Slightly wider to fit grid */
+            max-width: 800px; 
             margin: 0 auto;
             font-size: 1.1rem;
             color: var(--text-muted);
@@ -203,10 +203,9 @@
 
         .highlight { color: var(--text-main); font-weight: bold; }
 
-        /* --- NEW CERTIFICATE GRID STYLES --- */
         .cert-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Creates responsive columns */
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 15px;
             margin-top: 40px;
             width: 100%;
@@ -224,42 +223,73 @@
             font-weight: bold;
             font-size: 0.95rem;
             cursor: pointer;
-            transition: 0.3s;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             width: 100%;
             text-align: left;
         }
 
         .cert-badge:hover {
             background: rgba(56, 189, 248, 0.2);
-            box-shadow: 0 0 15px rgba(56, 189, 248, 0.3);
-            transform: scale(1.02);
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
+            transform: translateY(-5px) scale(1.02);
+            color: #fff;
         }
         
         .cert-badge i { font-size: 1.2rem; min-width: 20px; }
 
-        /* Hidden class for the extra certificates */
+        /* --- ANIMATED DROPDOWN STYLES --- */
         .cert-hidden {
-            display: none;
+            display: none; /* JS will toggle to flex */
+            opacity: 0;
+            transform: translateY(-20px) scale(0.95);
+            transition: all 0.5s ease;
         }
 
-        /* Show More Button */
+        /* Classes for the Dropdown Animation */
+        .cert-badge.show {
+            display: flex;
+            animation: dropIn 0.5s forwards ease-out;
+        }
+
+        @keyframes dropIn {
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* Animated Toggle Button */
         .toggle-certs-btn {
-            margin-top: 30px;
-            background: transparent;
-            border: 1px solid var(--text-muted);
-            color: var(--text-muted);
-            padding: 10px 25px;
-            border-radius: 25px;
+            margin-top: 35px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            padding: 12px 30px;
+            border-radius: 30px;
             cursor: pointer;
-            font-size: 0.9rem;
-            transition: 0.3s;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
             font-family: var(--font-main);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 0 10px rgba(56, 189, 248, 0.1);
+        }
+
+        .toggle-certs-btn i {
+            transition: transform 0.4s ease;
         }
 
         .toggle-certs-btn:hover {
-            border-color: var(--accent);
-            color: var(--accent);
-            background: rgba(56, 189, 248, 0.1);
+            background: var(--accent);
+            color: var(--bg-color);
+            box-shadow: 0 0 25px rgba(56, 189, 248, 0.4);
+            transform: scale(1.05);
+        }
+
+        .toggle-certs-btn.active i {
+            transform: rotate(180deg);
         }
 
         /* --- MODAL (POP-UP) STYLES --- */
@@ -423,7 +453,7 @@
             .nav-links a { padding: 6px 12px; font-size: 0.8rem; }
             .logo { font-size: 1.5rem; }
             .close-btn { right: 20px; top: 10px; }
-            .cert-grid { grid-template-columns: 1fr; } /* Stack certs on very small screens */
+            .cert-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -452,7 +482,6 @@
         </div>
     </section>
 
-    
     <section id="about">
         <div class="container">
             <h2 class="section-title fade-in">About Me</h2>
@@ -470,71 +499,29 @@
                 </p>
                 
                 <div class="cert-grid">
+                    <div class="cert-badge" data-modal="certModalAI"><i class="fas fa-robot"></i><span>AI Fundamentals - Udacity</span></div>
+                    <div class="cert-badge" data-modal="certModalAndroid"><i class="fab fa-android"></i><span>Android Developer Fundamentals - Udacity</span></div>
+                    <div class="cert-badge" data-modal="certModalData"><i class="fas fa-chart-line"></i><span>Data Analytics Fundamentals - Udacity</span></div>
+                    <div class="cert-badge" data-modal="certModalPro"><i class="fas fa-terminal"></i><span>Programming Fundamentals - Udacity</span></div>
                     
-                    <div class="cert-badge" data-modal="certModalAI">
-                         <i class="fas fa-robot"></i>
-                        <span>AI Fundamentals - Udacity</span>
-                    </div>
-                    <div class="cert-badge" data-modal="certModalAndroid">
-                        <i class="fab fa-android"></i>
-                        <span>Android Developer Fundamentals - Udacity</span>
-                    </div>
-                    <div class="cert-badge" data-modal="certModalData">
-                        <i class="fas fa-chart-line"></i>
-                        <span>Data Analytics Fundamentals - Udacity</span>
-                    </div>
-                    <div class="cert-badge" data-modal="certModalPro">
-                        <i class="fas fa-terminal"></i>
-                        <span>Programming Fundamentals - Udacity</span>
-                    </div>
-                    <div class="cert-badge cert-hidden" data-modal="certModal5">
-                        <i class="fas fa-briefcase"></i>
-                        <span>AI for Business Professionals - HP LIFE</span>
-                    </div>
-                    <div class="cert-badge cert-hidden" data-modal="certModal6">
-                        <i class="fas fa-brain"></i> 
-                        <span>Critical Thinking in theAI Era - HP LIFE</span>
-                    </div>
-                    <div class="cert-badge cert-hidden" data-modal="certModal7">
-                        <i class="fas fa-smile-beam"></i>
-                        <span>Customer Experience (CX) for Business Success - HP LIFE</span>
-                    </div>
-                    <div class="cert-badge cert-hidden" data-modal="certModal8">
-                        <i class="fas fa-globe"></i>
-                        <span>Effective Business Websites - HP LIFE</span>
-                    </div>
-                    <div class="cert-badge cert-hidden" data-modal="certModal9">
-                         <i class="fas fa-users-cog"></i>
-                        <span>Effective Leadership - HP LIFE</span>
-                    </div>
-                    <div class="cert-badge cert-hidden" data-modal="certModal10">
-                        <i class="fas fa-user-shield"></i>
-                        <span>Cybersecurity Awareness - HP LIFE</span>
-                    </div>
-                    <div class="cert-badge cert-hidden" data-modal="certModal11">
-                        <i class="fas fa-laptop-code"></i>
-                        <span>Digital Business Skills - HP LIFE</span>
-                    </div>
-                    <div class="cert-badge cert-hidden" data-modal="certModal12">
-                        <i class="fas fa-bullhorn"></i> 
-                        <span>Social Media Marketing - HP LIFE</span>
-                    </div>
-                    <div class="cert-badge cert-hidden" data-modal="certModal13">
-                        <i class="fas fa-store"></i>
-                        <span>Starting a Small Business - HP LIFE</span>
-                    </div>
-
+                    <div class="cert-badge cert-hidden" data-modal="certModal5"><i class="fas fa-briefcase"></i><span>AI for Business Professionals - HP LIFE</span></div>
+                    <div class="cert-badge cert-hidden" data-modal="certModal6"><i class="fas fa-brain"></i><span>Critical Thinking in the AI Era - HP LIFE</span></div>
+                    <div class="cert-badge cert-hidden" data-modal="certModal7"><i class="fas fa-smile-beam"></i><span>Customer Experience (CX) for Business Success - HP LIFE</span></div>
+                    <div class="cert-badge cert-hidden" data-modal="certModal8"><i class="fas fa-globe"></i><span>Effective Business Websites - HP LIFE</span></div>
+                    <div class="cert-badge cert-hidden" data-modal="certModal9"><i class="fas fa-users-cog"></i><span>Effective Leadership - HP LIFE</span></div>
+                    <div class="cert-badge cert-hidden" data-modal="certModal10"><i class="fas fa-user-shield"></i><span>Cybersecurity Awareness - HP LIFE</span></div>
+                    <div class="cert-badge cert-hidden" data-modal="certModal11"><i class="fas fa-laptop-code"></i><span>Digital Business Skills - HP LIFE</span></div>
+                    <div class="cert-badge cert-hidden" data-modal="certModal12"><i class="fas fa-bullhorn"></i><span>Social Media Marketing - HP LIFE</span></div>
+                    <div class="cert-badge cert-hidden" data-modal="certModal13"><i class="fas fa-store"></i><span>Starting a Small Business - HP LIFE</span></div>
                 </div>
 
                 <button id="toggleCertsBtn" class="toggle-certs-btn">
-                    View All Certifications <i class="fas fa-chevron-down"></i>
+                    View All 13 Certifications <i class="fas fa-chevron-down"></i>
                 </button>
-
             </div>
         </div>
     </section>
 
-    
     <section id="works">
         <div class="container">
             <h2 class="section-title fade-in">My Works</h2>
@@ -555,169 +542,93 @@
                     <p>A 'Guess the Number' game demonstrating DOM manipulation logic.</p>
                 </div>
             </div>
-
             <div class="view-more-container fade-in">
                 <a href="other-works.html" class="btn-outline">See My Other Works <i class="fas fa-arrow-right"></i></a>
             </div>
         </div>
     </section>
 
-    
     <section id="contact">
         <div class="container">
             <h2 class="section-title fade-in">Get In Touch</h2>
             <div class="contact-wrapper fade-in">
-                
                 <div class="social-icons">
                     <a href="https://www.tiktok.com/@barkot.z?_r=1&_t=ZM-91X39mfnOw4" class="social-icon tiktok"><i class="fab fa-tiktok"></i></a>
                     <a href="https://www.instagram.com/barkot.z?igsh=MWM1cmhhenJhZnhvaQ==" class="social-icon instagram"><i class="fab fa-instagram"></i></a>
                     <a href="https://t.me/barkot_z" class="social-icon telegram"><i class="fab fa-telegram"></i></a>
                     <a href="https://www.linkedin.com/in/barkot-zewdu-1a3544326?utm_source=share_via&utm_content=profile&utm_medium=member_android" class="social-icon linkedin"><i class="fab fa-linkedin"></i></a>
                 </div>
-
-                <a href="tel:+251981666503" class="contact-item">
-                    <i class="fas fa-phone-alt"></i>
-                    +251 981 66 65 03
-                </a>
-                <a href="mailto:barkotzewdu@outlook.com" class="contact-item">
-                    <i class="fas fa-envelope"></i>
-                    barkotzewdu@outlook.com
-                </a>
+                <a href="tel:+251981666503" class="contact-item"><i class="fas fa-phone-alt"></i>+251 981 66 65 03</a>
+                <a href="mailto:barkotzewdu@outlook.com" class="contact-item"><i class="fas fa-envelope"></i>barkotzewdu@outlook.com</a>
             </div>
         </div>
     </section>
 
-    <footer>
-        <p>&copy; 2026 Barkot Zewdu.</p>
-    </footer>
+    <footer><p>&copy; 2026 Barkot Zewdu.</p></footer>
 
-    <div id="certModalAI" class="modal">
-        <span class="close-btn">&times;</span>
-        <img class="modal-content" src="AIC.jpg" alt="Certificate in AI">
-    </div>
-    <div id="certModalAndroid" class="modal">
-        <span class="close-btn">&times;</span>
-        <img class="modal-content" src="ADC.jpg" alt="Certificate in Android">
-    </div>
-    <div id="certModalData" class="modal">
-        <span class="close-btn">&times;</span>
-        <img class="modal-content" src="DAC.jpg" alt="Certificate in Data">
-    </div>
-    <div id="certModalPro" class="modal">
-        <span class="close-btn">&times;</span>
-        <img class="modal-content" src="PG.jpg" alt="Certificate Programming">
-    </div>
-
-    <div id="certModal5" class="modal">
-        <span class="close-btn">&times;</span>
-        <img class="modal-content" src="ABP.jpg" alt="AI for Business Professionals">
-    </div>
-    <div id="certModal6" class="modal">
-        <span class="close-btn">&times;</span>
-        <img class="modal-content" src="CTAE.jpg" alt="Critical Thinking in the AI Era">
-    </div>
-    <div id="certModal7" class="modal">
-        <span class="close-btn">&times;</span>
-        <img class="modal-content" src="CEBS.jpg" alt="Customer Experience (CX) for Business Success">
-    </div>
-    <div id="certModal8" class="modal">
-        <span class="close-btn">&times;</span>
-        <img class="modal-content" src="EBW.jpg" alt="Effective Business Websites">
-    </div>
-    <div id="certModal9" class="modal">
-        <span class="close-btn">&times;</span>
-        <img class="modal-content" src="EL.jpg" alt="Effective Leadership">
-    </div>
-    <div id="certModal10" class="modal">
-        <span class="close-btn">&times;</span>
-        <img class="modal-content" src="CA.jpg" alt="Introduction to Cyber security Awareness">
-    </div>
-    <div id="certModal11" class="modal">
-        <span class="close-btn">&times;</span>
-        <img class="modal-content" src="DBS.jpg" alt="Digital Business Skills">
-    </div>
-    <div id="certModal12" class="modal">
-        <span class="close-btn">&times;</span>
-        <img class="modal-content" src="SMM.jpg" alt="Social Media Marketing">
-    </div>
-    <div id="certModal13" class="modal">
-        <span class="close-btn">&times;</span>
-        <img class="modal-content" src="SSB.jpg" alt="Starting a Small Business">
-    </div>
-
+    <div id="certModalAI" class="modal"><span class="close-btn">&times;</span><img class="modal-content" src="AIC.jpg" alt="AI"></div>
+    <div id="certModalAndroid" class="modal"><span class="close-btn">&times;</span><img class="modal-content" src="ADC.jpg" alt="Android"></div>
+    <div id="certModalData" class="modal"><span class="close-btn">&times;</span><img class="modal-content" src="DAC.jpg" alt="Data"></div>
+    <div id="certModalPro" class="modal"><span class="close-btn">&times;</span><img class="modal-content" src="PG.jpg" alt="Programming"></div>
+    <div id="certModal5" class="modal"><span class="close-btn">&times;</span><img class="modal-content" src="ABP.jpg" alt="HP1"></div>
+    <div id="certModal6" class="modal"><span class="close-btn">&times;</span><img class="modal-content" src="CTAE.jpg" alt="HP2"></div>
+    <div id="certModal7" class="modal"><span class="close-btn">&times;</span><img class="modal-content" src="CEBS.jpg" alt="HP3"></div>
+    <div id="certModal8" class="modal"><span class="close-btn">&times;</span><img class="modal-content" src="EBW.jpg" alt="HP4"></div>
+    <div id="certModal9" class="modal"><span class="close-btn">&times;</span><img class="modal-content" src="EL.jpg" alt="HP5"></div>
+    <div id="certModal10" class="modal"><span class="close-btn">&times;</span><img class="modal-content" src="CA.jpg" alt="HP6"></div>
+    <div id="certModal11" class="modal"><span class="close-btn">&times;</span><img class="modal-content" src="DBS.jpg" alt="HP7"></div>
+    <div id="certModal12" class="modal"><span class="close-btn">&times;</span><img class="modal-content" src="SMM.jpg" alt="HP8"></div>
+    <div id="certModal13" class="modal"><span class="close-btn">&times;</span><img class="modal-content" src="SSB.jpg" alt="HP9"></div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            
-            // --- Fade In Observer Logic ---
-            const observerOptions = { threshold: 0.15 };
+            // Scroll Animation
             const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                    }
-                });
-            }, observerOptions);
-            const animatedElements = document.querySelectorAll('.fade-in');
-            animatedElements.forEach(el => observer.observe(el));
+                entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+            }, { threshold: 0.15 });
+            document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
-            // --- 1. DYNAMIC MODAL LOGIC ---
-            // Opens any modal based on the 'data-modal' attribute of the clicked badge
-            const certButtons = document.querySelectorAll('.cert-badge');
-            
-            certButtons.forEach(btn => {
+            // Modals
+            document.querySelectorAll('.cert-badge').forEach(btn => {
                 btn.addEventListener('click', () => {
-                    const modalId = btn.getAttribute('data-modal');
-                    const modal = document.getElementById(modalId);
-                    if (modal) {
-                        modal.classList.add("show");
-                    }
+                    const modal = document.getElementById(btn.getAttribute('data-modal'));
+                    if (modal) modal.classList.add("show");
                 });
             });
-
-            // Close logic
-            const closeButtons = document.querySelectorAll(".close-btn");
-            closeButtons.forEach(closeBtn => {
-                closeBtn.addEventListener('click', (e) => {
-                    const modal = e.target.closest('.modal');
-                    if (modal) {
-                        modal.classList.remove("show");
-                    }
-                });
+            document.querySelectorAll(".close-btn").forEach(btn => {
+                btn.onclick = () => btn.closest('.modal').classList.remove("show");
             });
+            window.onclick = (e) => { if (e.target.classList.contains('modal')) e.target.classList.remove("show"); };
 
-            window.addEventListener('click', (e) => {
-                if (e.target.classList.contains('modal')) {
-                    e.target.classList.remove("show");
-                }
-            });
-
-            // --- 2. SHOW MORE / SHOW LESS LOGIC ---
+            // Animated Dropdown Logic
             const toggleBtn = document.getElementById('toggleCertsBtn');
             const hiddenCerts = document.querySelectorAll('.cert-hidden');
             let isExpanded = false;
 
-            if(toggleBtn) {
-                toggleBtn.addEventListener('click', () => {
-                    isExpanded = !isExpanded;
-                    
-                    hiddenCerts.forEach(cert => {
-                        // Toggle display
-                        cert.style.display = isExpanded ? 'flex' : 'none';
-                        // Add fade animation
-                        if(isExpanded) {
-                            cert.style.animation = "fadeIn 0.5s ease forwards";
-                        }
-                    });
-
-                    // Update Button Text
+            toggleBtn.addEventListener('click', () => {
+                isExpanded = !isExpanded;
+                toggleBtn.classList.toggle('active');
+                
+                hiddenCerts.forEach((cert, index) => {
                     if (isExpanded) {
-                        toggleBtn.innerHTML = 'Show Less <i class="fas fa-chevron-up"></i>';
+                        cert.style.display = 'flex';
+                        // Staggered delay for smoothness
+                        setTimeout(() => {
+                            cert.classList.add('show');
+                        }, index * 100); 
                     } else {
-                        toggleBtn.innerHTML = 'View All 13 Certifications <i class="fas fa-chevron-down"></i>';
+                        cert.classList.remove('show');
+                        // Wait for animation to finish before hiding display
+                        setTimeout(() => {
+                            if(!isExpanded) cert.style.display = 'none';
+                        }, 500);
                     }
                 });
-            }
+
+                toggleBtn.innerHTML = isExpanded 
+                    ? `Show Less <i class="fas fa-chevron-down"></i>` 
+                    : `View All 13 Certifications <i class="fas fa-chevron-down"></i>`;
+            });
         });
     </script>
 </body>
