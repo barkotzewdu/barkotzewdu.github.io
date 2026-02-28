@@ -16,6 +16,7 @@
             --accent-hover: #0ea5e9;
             --glass-bg: rgba(255, 255, 255, 0.05);
             --font-main: 'Inter', sans-serif;
+            --premium-bg: #0f172a; /* Added for Packages */
         }
 
         /* Load Inter Font */
@@ -368,6 +369,140 @@
 
         .btn-outline:hover { background: var(--accent); color: var(--bg-color); }
 
+        /* --- PACKAGES SECTION STYLES --- */
+        .packages-section {
+            background-color: var(--bg-color);
+            padding: 80px 20px;
+            font-family: var(--font-main);
+            color: var(--text-main);
+        }
+
+        .packages-container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .packages-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+        }
+
+        .packages-title span {
+            color: var(--accent);
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            align-items: stretch;
+        }
+
+        .price-card {
+            position: relative;
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 40px 30px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            z-index: 1;
+            transition: transform 0.4s ease;
+        }
+
+        .price-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(
+                transparent, 
+                transparent, 
+                transparent, 
+                var(--accent)
+            );
+            animation: rotateGlow 4s linear infinite;
+            z-index: -2;
+        }
+
+        .price-card::after {
+            content: '';
+            position: absolute;
+            inset: 2px; 
+            background: var(--card-bg);
+            border-radius: 18px;
+            z-index: -1;
+        }
+
+        .price-card.premium::after {
+            background: var(--premium-bg);
+        }
+
+        @keyframes rotateGlow {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .price-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .price-header h3 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: var(--text-main);
+            text-align: center;
+        }
+
+        .divider {
+            height: 1px;
+            background: rgba(255, 255, 255, 0.1);
+            margin: 20px 0;
+        }
+
+        .feature-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .feature-list li {
+            margin-bottom: 15px;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1rem;
+            line-height: 1.4;
+        }
+
+        .feature-list li i {
+            color: var(--accent);
+            font-size: 1rem;
+            min-width: 20px;
+        }
+
+        .feature-list li strong {
+            color: var(--text-main);
+        }
+
+        .ribbon {
+            position: absolute;
+            top: 20px;
+            right: -35px;
+            background: var(--accent);
+            color: var(--bg-color);
+            padding: 5px 40px;
+            font-size: 0.75rem;
+            font-weight: 800;
+            transform: rotate(45deg);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
         /* --- CONTACT SECTION & SOCIALS --- */
         .contact-wrapper {
             display: flex;
@@ -431,7 +566,8 @@
             .nav-links a { padding: 6px 12px; font-size: 0.8rem; }
             .logo { font-size: 1.5rem; }
             .close-btn { right: 20px; top: 10px; }
-            .cert-grid { grid-template-columns: 1fr; } /* Stack certs on very small screens */
+            .cert-grid { grid-template-columns: 1fr; } 
+            .pricing-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -445,6 +581,7 @@
                     <a href="#home">Home</a>
                     <a href="#about">About</a>
                     <a href="#works">Works</a>
+                    <a href="#packages">Packages</a>
                     <a href="#contact">Contact</a>
                 </div>
             </nav>
@@ -566,6 +703,65 @@
 
             <div class="view-more-container fade-in">
                 <a href="other-works.html" class="btn-outline">See My Other Works <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <section class="packages-section" id="packages">
+        <div class="packages-container">
+            <h2 class="packages-title">My <span>Packages</span></h2>
+            
+            <div class="pricing-grid">
+                
+                <div class="price-card">
+                    <div class="price-header">
+                        <h3>Basic</h3>
+                    </div>
+                    <div class="divider"></div>
+                    <ul class="feature-list">
+                        <li><i class="fas fa-check"></i> Basic SEO</li>
+                        <li><i class="fas fa-check"></i> Mobile and PC size integration</li>
+                        <li><i class="fas fa-check"></i> Contact form</li>
+                        <li><i class="fas fa-check"></i> 3 Revisions</li>
+                        <li><i class="fas fa-check"></i> Social media integration</li>
+                    </ul>
+                </div>
+
+                <div class="price-card">
+                    <div class="price-header">
+                        <h3>Standard</h3>
+                    </div>
+                    <div class="divider"></div>
+                    <ul class="feature-list">
+                        <li><i class="fas fa-check"></i> <strong>Advanced SEO</strong></li>
+                        <li><i class="fas fa-check"></i> <strong>Basic monthly maintenance</strong></li>
+                        <li><i class="fas fa-check"></i> <strong>Priority support</strong></li>
+                        <li><i class="fas fa-check"></i> <strong>5 Revisions</strong></li>
+                        <li><i class="fas fa-check"></i> Mobile and PC size integration</li>
+                        <li><i class="fas fa-check"></i> Contact form</li>
+                        <li><i class="fas fa-check"></i> Social media integration</li>
+                    </ul>
+                </div>
+
+                <div class="price-card premium">
+                    <div class="ribbon">Best Value</div>
+                    <div class="price-header">
+                        <h3>Premium</h3>
+                    </div>
+                    <div class="divider"></div>
+                    <ul class="feature-list">
+                        <li><i class="fas fa-check"></i> <strong>Unlimited revisions</strong></li>
+                        <li><i class="fas fa-check"></i> <strong>Advanced design</strong></li>
+                        <li><i class="fas fa-check"></i> <strong>Premium monthly maintenance</strong></li>
+                        <li><i class="fas fa-check"></i> <strong>Top tier support</strong></li>
+                        <li><i class="fas fa-check"></i> <strong>Management system with backend</strong></li>
+                        <li><i class="fas fa-check"></i> Advanced SEO</li>
+                        <li><i class="fas fa-check"></i> Mobile and PC size integration</li>
+                        <li><i class="fas fa-check"></i> Contact form</li>
+                        <li><i class="fas fa-check"></i> Social media integration</li>
+                    </ul>
+                </div>
+
             </div>
         </div>
     </section>
@@ -741,4 +937,4 @@
         });
     </script>
 </body>
-</html>
+                                                             </html>
